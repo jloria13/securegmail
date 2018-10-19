@@ -54,3 +54,12 @@ class Encryption:
 		#Converts the message from base64 and the decrypts it
 		decrypted = cypher.decrypt(b64decode(message))
 		return decrypted
+
+	"""
+	 * ViewKey exports the key so it can be visualized
+	 * @key key from the user
+	 * Returns the key vor visualization
+
+	"""
+	def ViewKey (self,key):
+		return key.exportKey('PEM')
