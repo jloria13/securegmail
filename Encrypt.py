@@ -59,7 +59,6 @@ class Encryption:
 	 * ViewKey exports the key so it can be visualized
 	 * @key key from the user
 	 * Returns the key vor visualization
-
 	"""
 	def ViewKey (self,key):
 		return key.exportKey('PEM')
