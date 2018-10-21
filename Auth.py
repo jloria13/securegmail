@@ -106,6 +106,15 @@ class Auth:
 
         return mails
 
+    def sendMessage(self,message):
+        try:
+            message = self.GMAIL.users().message().send(userId='me',body=message).execute()
+            print ("Message ID: ",message['id'])
+            return message
+        except errors.HttpError as error:
+            print ("An error ocurred: ",error)
+
+
 # PONCHO
 #
 # class GetCredentialsException(Exception):
