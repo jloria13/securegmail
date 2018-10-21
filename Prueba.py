@@ -2,6 +2,8 @@ from Encrypt import Encryption
 from Auth import Auth
 
 auten = Auth()
+auten.Auth_User()
+auten.getInbox(['INBOX'])
 
 
 """
