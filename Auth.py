@@ -107,6 +107,11 @@ class Auth:
 
         return mails
 
+    """
+     * sendMessage sends the message created by the user
+     * @message {object} Is a json object which contains the message to be sent
+     * encoded in a base64 format
+    """
     def sendMessage(self,message):
         try:
             message = self.GMAIL.users().message().send(userId='me',body=message).execute()

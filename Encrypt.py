@@ -24,8 +24,6 @@ class Encryption:
 		key = RSA.generate(self.key_long,random)
 		private = key;
 		public = key.publickey()
-		print ("Type: ")
-		print(type(public))
 		return [private,public]
 
 	"""
