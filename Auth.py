@@ -30,7 +30,7 @@ class Auth:
     """
     def Auth_User (self):
         #The following scope allows to all read/write operations
-        SCOPES = 'https://www.googleapis.com/auth/gmail.modify'
+        SCOPES = 'https://mail.google.com/'
         store = file.Storage('token.json')
         creds = store.get()
         if not creds or creds.invalid:
@@ -85,6 +85,7 @@ class Auth:
                     first_part = message_parts[0]
                     body_part = first_part['body']
                     data_part = body_part['data']
+                    print("Data part: ",data_part)
                     first_filter = data_part.replace('-','+')
                     first_filter = first_filter.replace('_','/')
                     second_filter = base64.b64decode(first_filter)
@@ -109,8 +110,7 @@ class Auth:
     def sendMessage(self,message):
         try:
             message = self.GMAIL.users().message().send(userId='me',body=message).execute()
-            print ("Message ID: ",message['id'])
-            return message
+            print("Message Sent")
         except errors.HttpError as error:
             print ("An error ocurred: ",error)
 
