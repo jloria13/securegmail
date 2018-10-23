@@ -15,9 +15,9 @@ class Correo:
 
 	def CreateMessage (self):
 		message = MIMEMultipart('alternative')
-		message['To'] = self.to
-		message['From'] = self.sender
-		message['Subject'] = self.subject
+		message['to'] = self.to
+		message['from'] = self.sender
+		message['subject'] = self.subject
 		message.attach(MIMEText(self.body,'plain'))
 		message.attach(MIMEText(self.body,'html'))
 		raw_message = base64.urlsafe_b64encode(message.as_bytes())

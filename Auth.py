@@ -112,9 +112,11 @@ class Auth:
      * @message {object} Is a json object which contains the message to be sent
      * encoded in a base64 format
     """
-    def sendMessage(self,message):
+    def sendMessage(self,body):
         try:
-            message = self.GMAIL.users().message().send(userId='me',body=message).execute()
+            message = self.GMAIL.users().messages().send(userId='me',body=body)
+            print(message)
+            message.execute()
             print("Message Sent")
         except errors.HttpError as error:
             print ("An error ocurred: ",error)

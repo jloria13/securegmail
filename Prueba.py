@@ -1,7 +1,7 @@
 from Encrypt import Encryption
 from Auth import Auth
 from Correo import Correo
-"""
+
 correo = Correo('securemailpython@gmail.com','jloria1305@gmail.com','[PlainText]','Hola Mundo!')
 message = correo.CreateMessage()
 print(message)
@@ -21,3 +21,4 @@ print(encriptado)
 desencriptar = prueba.Decrypt(llaves[0],encriptado)
 print("Desencriptado: ")
 print(desencriptar.decode())
+"""
