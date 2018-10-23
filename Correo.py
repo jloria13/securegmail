@@ -22,5 +22,4 @@ class Correo:
 		message.attach(MIMEText(self.body,'html'))
 		raw_message = base64.urlsafe_b64encode(message.as_bytes())
 		raw_message = raw_message.decode()
-		print("Message: ",raw_message)
 		return {'raw': raw_message}

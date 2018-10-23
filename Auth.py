@@ -114,9 +114,7 @@ class Auth:
     """
     def sendMessage(self,body):
         try:
-            message = self.GMAIL.users().messages().send(userId='me',body=body)
-            print(message)
-            message.execute()
+            message = self.GMAIL.users().messages().send(userId='me',body=body).execute()
             print("Message Sent")
         except errors.HttpError as error:
             print ("An error ocurred: ",error)
