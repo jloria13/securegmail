@@ -4,7 +4,6 @@ from apiclient import errors as errors
 import mimetypes
 import base64
 
-
 class Correo:
 
 	def __init__ (self,sender,to,subject,body,bytes=False):
@@ -24,5 +23,3 @@ class Correo:
 		raw_message = base64.urlsafe_b64encode(message.as_bytes())
 		raw_message = raw_message.decode()
 		return {'raw': raw_message}
-
-	

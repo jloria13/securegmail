@@ -5,6 +5,7 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import base64
 import logging
+import json
 
 class Auth:
 
@@ -28,9 +29,8 @@ class Auth:
             flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
             creds = tools.run_flow(flow, store)
         http = creds.authorize(Http())
-        print("Http: ",http)
         self.GMAIL = build('gmail', 'v1', http=http)
-        print("Build: ",self.GMAIL)
+
     """
      * getInbox retrieves all the messages in the inbox that have the inputed
      * labels on it
@@ -52,7 +52,10 @@ class Auth:
                 payload = message['payload']  #This is where is contained the information of the message
                 headers = payload['headers']   #Contained attributes like subject,sender and text
 
+
                 #Retrieves main information of the message
+                subject = date = sender = None
+
                 for header in headers:
                     if header['name'] == 'Subject':
                         subject = header['value']
@@ -91,24 +94,21 @@ class Auth:
                     try:
                         body_part = payload["body"]
                         body = body_part["data"]
-                        first_filter = body.replace('-','+')
-                        first_filter = first_filter.replace('_','/')
-                        second_filter = base64.b64decode(first_filter)
-                        body = second_filter.decode('UTF-8')
-                        temp["Body"] = body
                     except:
-                        print("An error ocurred retrieving the body the encrypted message!")
+                        message_parts = payload['parts']
+                        first_part = message_parts[0]
+                        body_part = first_part['body']
+                        body = body_part['data']
+                    #Decodes de the message
+                    first_filter = body.replace('-','+')
+                    first_filter = first_filter.replace('_','/')
+                    second_filter = base64.b64decode(first_filter)
+                    body = second_filter.decode('UTF-8')
+                    temp["Body"] = body
 
-                print(temp)
                 mails.append(temp)
                 #Removes UNREAD label from the message NOT WORKING YET
-                try:
-                    self.GMAIL.users().modify(userId='me',id=message_id,body={'removeLabelIds':['UNREAD']}).execute()
-                except:
-                    pass
-
-        else:
-            print("There are no messages")
+                self.GMAIL.users().messages().modify(userId='me',id=message_id,body={'removeLabelIds':['UNREAD']}).execute()
 
         return mails
 
