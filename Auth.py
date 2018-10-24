@@ -19,7 +19,7 @@ class Auth:
      * in the browser to login and give permission to the user in case its a not
      * new user it will load the already exising token
     """
-    def Auth_User (self):
+    def Authenticate (self):
         #The following scope allows to all read/write operations
         SCOPES = 'https://mail.google.com/'
         store = file.Storage('token.json')
@@ -27,8 +27,10 @@ class Auth:
         if not creds or creds.invalid:
             flow = client.flow_from_clientsecrets('credentials.json', SCOPES)
             creds = tools.run_flow(flow, store)
-        self.GMAIL = build('gmail', 'v1', http=creds.authorize(Http()))
-
+        http = creds.authorize(Http())
+        print("Http: ",http)
+        self.GMAIL = build('gmail', 'v1', http=http)
+        print("Build: ",self.GMAIL)
     """
      * getInbox retrieves all the messages in the inbox that have the inputed
      * labels on it
@@ -46,9 +48,11 @@ class Auth:
                 temp = {}
                 message_id = message['id']
                 message = self.GMAIL.users().messages().get(userId='me',id=message_id).execute()
-                payload = message['payload']
-                headers = payload['headers']
+                temp['ID'] = message_id
+                payload = message['payload']  #This is where is contained the information of the message
+                headers = payload['headers']   #Contained attributes like subject,sender and text
 
+                #Retrieves main information of the message
                 for header in headers:
                     if header['name'] == 'Subject':
                         subject = header['value']
