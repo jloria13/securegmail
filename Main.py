@@ -4,22 +4,27 @@ from Encrypt import Encryption
 from pathlib import Path
 import json
 
+#Global Variables
 AUTH = Auth()
 PUBLICKEY = None
 PRIVATEKEY = None
 
-def SelectUser (option):
+def SelectUser (reset,email=None):
     global AUTH
     # TODO: Select which user to be used if an already existing one or a new
     # one, if a new user is select or RESET the token file shall be deleted
     file = 'token.json'
     if not file.is_file():
         AUTH.Authenticate()
-    elif option == 1:
+    elif reset:
         file.unlink()
         AUTH.Authenticate()
+        SaveUser(email)
     else:
-        print("Bienvenido")
+        if not CheckUser(email):
+            AUTH.Authenticate()
+    print(Bienvenido)
+
 
 def ShareKey():
     # TODO: Generate and share a public key with an inputed mail also the mail
@@ -38,11 +43,28 @@ def ComposeMessage():
 
 def Inbox():
     # TODO: Is going to retrieve al the current mail in the mail box
-    pass
+    mails = AUTH.getInbox()
 
 def FriendsKeys():
     # TODO: visualize all the friends and their respective keys
     pass
+
+def CheckUser(email):
+    # TODO: Checks if the user already exists in the is_file
+    try:
+        #Opening json file for lecture
+        with open('users.json') as json_file:
+            data = json.load(json_file)
+            users = data['users']
+        json_file.close()
+
+        #Parsing emails
+        for user in data:
+            if user['email'] == email:
+                return True
+        return False
+    except:
+        return False
 
 def SaveUser(email):
     # TODO: Saves a new user in a json file
