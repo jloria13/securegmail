@@ -7,11 +7,12 @@ import base64
 
 class Correo:
 
-	def __init__ (self,sender,to,subject,body):
+	def __init__ (self,sender,to,subject,body,bytes=False):
 		self.to = to
 		self.subject = subject
 		self.body = body
 		self.sender = sender
+		self.bytes = bytes
 
 	def CreateMessage (self):
 		message = MIMEMultipart('alternative')

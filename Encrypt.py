@@ -43,7 +43,8 @@ class Encryption:
 	"""
 	 * Decrypt takes the private key, decodes the message from base64 and then
 	 * decrypts it using the key
-	 * @type {[type]}
+	 * @private_key {[bytes]} Private key in as_bytes
+	 * @message {[bytes]} Message in bytes
 	 * Return the message decrypted
 	"""
 	def Decrypt (self,private_key,message):

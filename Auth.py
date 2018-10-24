@@ -6,15 +6,6 @@ from oauth2client import file, client, tools
 import base64
 import logging
 
-CLIENTSECRETS_LOCATION = 'credentials.json'
-REDIRECT_URI = '<YOUR_REGISTERED_REDIRECT_URI>'
-SCOPES = [
-    'https://www.googleapis.com/auth/gmail.readonly',
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/gmail.modify'
-]
-
 class Auth:
 
     """
@@ -51,7 +42,6 @@ class Auth:
         if messages['resultSizeEstimate'] != 0:
             messages = messages['messages']
             print("Mensajes totales: ",str(len(messages)))
-
             for message in messages:
                 temp = {}
                 message_id = message['id']
@@ -80,19 +70,30 @@ class Auth:
                 temp['Snippet'] = message['snippet']
 
                 #Fetch the body of the message
-                try:
-                    message_parts = payload['parts']
-                    first_part = message_parts[0]
-                    body_part = first_part['body']
-                    data_part = body_part['data']
-                    print("Data part: ",data_part)
-                    first_filter = data_part.replace('-','+')
-                    first_filter = first_filter.replace('_','/')
-                    second_filter = base64.b64decode(first_filter)
-                    message_body = second_filter.decode('UTF-8')
-                    temp["Body"] = message_body.replace("\r\n","")
-                except:
-                    print("An error ocurred retrieving the body the message!")
+                if subject == '[PlainText]':
+                    try:
+                        message_parts = payload['parts']
+                        first_part = message_parts[0]
+                        body_part = first_part['body']
+                        data_part = body_part['data']
+                        first_filter = data_part.replace('-','+')
+                        first_filter = first_filter.replace('_','/')
+                        second_filter = base64.b64decode(first_filter)
+                        message_body = second_filter.decode('UTF-8')
+                        temp["Body"] = message_body.replace("\r\n","")
+                    except:
+                        print("An error ocurred retrieving the body the plain text message!")
+                else:
+                    try:
+                        body_part = payload["body"]
+                        body = body_part["data"]
+                        first_filter = body.replace('-','+')
+                        first_filter = first_filter.replace('_','/')
+                        second_filter = base64.b64decode(first_filter)
+                        body = second_filter.decode('UTF-8')
+                        temp["Body"] = body
+                    except:
+                        print("An error ocurred retrieving the body the encrypted message!")
 
                 print(temp)
                 mails.append(temp)
