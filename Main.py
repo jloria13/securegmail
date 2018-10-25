@@ -8,43 +8,70 @@ import json
 AUTH = Auth()
 PUBLICKEY = None
 PRIVATEKEY = None
-Correo_Persona =""
+EMAIL =""
+
+
+
+
+
 
 def menuInicial():
-	global Correo_Persona
-	print("Digite el numero de la opcion que desea")
-	print("1. Inicir sesion", "\t", "\t","2.Salir","\n")
-	Eleccion = input()
-	print("\n")
-	if(Eleccion=="1"):
-		print("Ingrese el Correo")
-	elif(Eleccion=="2"):
-		exit()
-	else:
-		print ("Digite un valor valido")
-		menuInicial()
+    global EMAIL
+    print("Digite el numero de la opcion que desea")
+    print("1. Inicir sesion", "\t", "\t","2.Salir","\n")
+    Eleccion = input("Seleccion: ")
+    print ("\n")
+    if Eleccion=="1":
+        mail= input("Ingrese el correo electronico"+"\n")
+        print (mail)
+        #QUITAR MAIL ACA
+        EMAIL=mail
+        ##SelectUser(False,mail)
+        menuPrincipal()
+    elif Eleccion=="2":
+        exit()
+    else:
+        print ("===================================")
+        print ("Digite un valor valido")
+        print ("===================================")
+        menuInicial()
 
 
-def menu():
-	print("1.ShareKey", "\t", "\t","2. SafeKey")
-	print("3.Inbox", "\t", "\t","4. Reset")
-	print("5.Reset", "\t", "\t","6. New user")
-	print("7 Salir")
-	Seleccion = input("\n"+"Eleccion: ")
-	print ("\n")
-	if(Seleccion=="1"):
-		Correo_Persona= input("Ingrese el correo electronico"+"\n")
-		prueba()
-		ShareKey(Correo_Persona)
-	elif(Seleccion=="2"):
-		Correo_Persona= input("Ingrese el correo electronico"+"\n")
-		## PubKey=input("Ingrese la Llave publica"+"\n")
-		## PriKey=input("Ingrese la llave privada"+"\n")
-		SafeKey(correo)
-	elif(Seleccion=="3"):
-		Correo_Persona= input("Ingrese el correo electronico"+"\n")
-		Inbox()
+def menuPrincipal():
+    print("1.ShareKey", "\t", "\t","2. SafeKey")
+    print("3.Inbox", "\t", "\t","4. Reset")
+    print("5.New user", "\t", "\t","6. Salir")
+    Seleccion = input("\n"+"Seleccion: ")
+    print ("\n")
+    if(Seleccion=="1"):
+        print(EMAIL)
+        ShareKey()
 
+    elif(Seleccion=="2"): ##Preguntar
+        Correo_Persona= input("Ingrese el correo electronico"+"\n")
+        ## PubKey=input("Ingrese la Llave publica"+"\n")
+        ## PriKey=input("Ingrese la llave privada"+"\n")
+        SafeKey(correo)
+    elif(Seleccion=="3"):
+        Correo_Persona= input("Ingrese el correo electronico"+"\n")
+        Inbox()
+
+    elif Seleccion=="4":
+        SelectUser(False,EMAIL)
+
+    elif Seleccion=="5":
+        print("=====================================================")
+        print("\t"+"Volviendo a menu incial")
+        print("=====================================================")
+        menuInicial()
+
+    elif Seleccion =="6":
+        quit()
+    else:
+        print ("===================================")
+        print ("Digite un valor valido")
+        print ("===================================")
+        menuPrincipal()
 
 
 def prueba():
@@ -53,6 +80,7 @@ def prueba():
 
 def SelectUser (reset,email=None):
     global AUTH
+    global EMAIL
     # TODO: Select which user to be used if an already existing one or a new
     # one, if a new user is select or RESET the token file shall be deleted
     
@@ -66,6 +94,7 @@ def SelectUser (reset,email=None):
     else:
         if not CheckUser(email):
             AUTH.Authenticate()
+    EMAIL= email
     print(Bienvenido)
 
 
