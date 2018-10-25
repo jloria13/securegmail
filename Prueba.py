@@ -22,7 +22,7 @@ auten.getInbox('INBOX')
 auten = Auth()
 auten.Authenticate()
 # auten.sendMessage(message)
-correos = auten.getInbox('INBOX')
+#correos = auten.getInbox('INBOX')
 # encriptado = correos[0]["Body"]
 # print(encriptado)
 # print("--------------")

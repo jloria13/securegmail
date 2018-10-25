@@ -10,9 +10,22 @@ PUBLICKEY = None
 PRIVATEKEY = None
 Correo_Persona =""
 
-def menu():
+def menuInicial():
 	global Correo_Persona
-	print("Seleccione el numero de la opcion que desea")
+	print("Digite el numero de la opcion que desea")
+	print("1. Inicir sesion", "\t", "\t","2.Salir","\n")
+	Eleccion = input()
+	print("\n")
+	if(Eleccion=="1"):
+		print("Ingrese el Correo")
+	elif(Eleccion=="2"):
+		exit()
+	else:
+		print ("Digite un valor valido")
+		menuInicial()
+
+
+def menu():
 	print("1.ShareKey", "\t", "\t","2. SafeKey")
 	print("3.Inbox", "\t", "\t","4. Reset")
 	print("5.Reset", "\t", "\t","6. New user")
@@ -42,6 +55,7 @@ def SelectUser (reset,email=None):
     global AUTH
     # TODO: Select which user to be used if an already existing one or a new
     # one, if a new user is select or RESET the token file shall be deleted
+    
     file = 'token.json'
     if not file.is_file():
         AUTH.Authenticate()
@@ -146,4 +160,4 @@ def SaveUser(email):
         with open('users.json','w') as json_file:
             json.dump(data,json_file)
 
-menu()
+menuInicial()
