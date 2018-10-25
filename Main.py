@@ -26,15 +26,46 @@ def SelectUser (reset,email=None):
     print(Bienvenido)
 
 
-def ShareKey():
+def ShareKey(email):
     # TODO: Generate and share a public key with an inputed mail also the mail
     # has to be validated as an exising one
     pass
 
-def SafeKey():
+def SafeKey(email,public=None,private=None):
     # TODO: If a user sends a public key the system has to ask to save it,
     # if two keys are sent the latest one is going to be the saved one
-    pass
+
+    try:
+        #Parsing trying to find the email
+        friends = LoadKeys()
+        for friend in friends:
+            if friend['email'] == email:
+                if friend['public'] is None:
+                    friend['public'] = public
+                if friend['private'] is None:
+                    friend['private'] = private
+            else:
+                new_friend = [{'email':email,'public':public,'private':private}]
+
+        #Appending new user email
+        data.append(new_user)
+        #Opening json file for writing
+        with open('users.json','w') as json_file:
+            json.dump(data,json_file)
+    except:
+        data = {}
+        data['friends'] = [{'email':email,'public':public,'private':private}]
+        with open('users.json','w') as json_file:
+            json.dump(data,json_file)
+
+def LoadKeys ():
+    #Opening json file for lecture
+    with open('friends.json') as json_file:
+        data = json.load(json_file)
+        data = data['friends']
+    json_file.close()
+    return data
+
 
 def ComposeMessage():
     # TODO: The user can compose a mail and if the sender email has a public key
