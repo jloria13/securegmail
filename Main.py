@@ -8,6 +8,35 @@ import json
 AUTH = Auth()
 PUBLICKEY = None
 PRIVATEKEY = None
+Correo_Persona =""
+
+def menu():
+	global Correo_Persona
+	print("Seleccione el numero de la opcion que desea")
+	print("1.ShareKey", "\t", "\t","2. SafeKey")
+	print("3.Inbox", "\t", "\t","4. Reset")
+	print("5.Reset", "\t", "\t","6. New user")
+	print("7 Salir")
+	Seleccion = input("\n"+"Eleccion: ")
+	print ("\n")
+	if(Seleccion=="1"):
+		Correo_Persona= input("Ingrese el correo electronico"+"\n")
+		prueba()
+		ShareKey(Correo_Persona)
+	elif(Seleccion=="2"):
+		Correo_Persona= input("Ingrese el correo electronico"+"\n")
+		## PubKey=input("Ingrese la Llave publica"+"\n")
+		## PriKey=input("Ingrese la llave privada"+"\n")
+		SafeKey(correo)
+	elif(Seleccion=="3"):
+		Correo_Persona= input("Ingrese el correo electronico"+"\n")
+		Inbox()
+
+
+
+def prueba():
+	print("Aca correo")
+	print(Correo_Persona)
 
 def SelectUser (reset,email=None):
     global AUTH
@@ -116,3 +145,5 @@ def SaveUser(email):
         data['users'] = [new_user]
         with open('users.json','w') as json_file:
             json.dump(data,json_file)
+
+menu()
